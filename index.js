@@ -4,10 +4,11 @@
 const { Command } = require('commander');
 const { run }     = require('./lib/core');
 const { loadConfig } = require('./lib/config');
+const { version }   = require('./package.json');
 
 const BANNER = `
 +----------------------------------------------------+
-|         use-obfuscator  v1.0.0                     |
+|         use-obfuscator  v${version.padEnd(23)}|
 |  CSS/HTML obfuscation with config file support     |
 |  github.com/r-skrylnyk/use-obfuscator              |
 +----------------------------------------------------+
@@ -20,7 +21,7 @@ const program = new Command();
 program
   .name('use-obfuscator')
   .description('CSS/HTML class & ID obfuscator with config file and multi-format support')
-  .version('1.0.0')
+  .version(version)
   .argument('[include]', '.css file(s) to read classes/IDs from (comma-separated or glob)')
   .option('-a, --apply <files>',        'HTML/PHP/Vue/JSX files to apply obfuscation to')
   .option('-o, --output <dir>',         'output directory')
