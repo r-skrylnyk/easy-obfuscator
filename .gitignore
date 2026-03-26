@@ -3,3 +3,4 @@ node_modules/
 use-obfuscator.config.js
 dist/
 .DS_Store
+readme-for-dev.md
