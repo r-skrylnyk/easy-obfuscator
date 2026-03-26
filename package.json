@@ -7,19 +7,26 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "easy-obfuscator": "./index.js"
+    "easy-obfuscator": "index.js"
   },
   "engines": {
     "node": ">=16"
   },
   "keywords": [
-    "obfuscate", "css", "html", "php", "vue", "obfuscation", "css-classes", "minify"
+    "obfuscate",
+    "css",
+    "html",
+    "php",
+    "vue",
+    "obfuscation",
+    "css-classes",
+    "minify"
   ],
   "author": "Roman Skrylnyk (etozheroma) <https://github.com/r-skrylnyk/>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/r-skrylnyk/easy-obfuscator"
+    "url": "git+https://github.com/r-skrylnyk/easy-obfuscator.git"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
