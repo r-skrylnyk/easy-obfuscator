@@ -1,0 +1,31 @@
+{
+  "name": "easy-obfuscator",
+  "version": "1.0.0",
+  "description": "CSS/HTML class & ID obfuscator with config file, multi-format support and exclude lists",
+  "main": "lib/core.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "easy-obfuscator": "./index.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": [
+    "obfuscate", "css", "html", "php", "vue", "obfuscation", "css-classes", "minify"
+  ],
+  "author": "Roman Skrylnyk (etozheroma) <https://github.com/r-skrylnyk/>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/r-skrylnyk/easy-obfuscator"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "commander": "^12.1.0",
+    "glob": "^10.4.5",
+    "hashids": "^2.3.0",
+    "lodash": "^4.17.21"
+  }
+}
