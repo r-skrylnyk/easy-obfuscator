@@ -1,6 +1,6 @@
 {
   "name": "use-obfuscator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CSS/HTML class & ID obfuscator with config file, multi-format support and exclude lists",
   "main": "lib/core.js",
   "scripts": {
