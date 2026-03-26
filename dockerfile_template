@@ -1,0 +1,108 @@
+# Dockerfile Template — easy-obfuscator
+#
+# Замініть значення в кутових дужках <...> на свої.
+# Цей шаблон замінює старий підхід з obscure@1.0.1 + патч index.js.
+#
+# Відмінності від старого obscure:
+#   - НЕ потрібен COPY assets/obscure/index.js (патч більше не потрібен)
+#   - exclude задається файлом --exclude-list, не хардкодом у пакеті
+#   - карта обфускації: easy-obfuscator.map.json (було: obscure.map)
+#   - підтримує .php, .vue, .jsx, .tsx, glob, конфіг-файл
+#
+# Перед використанням:
+#   1. Додайте exclude-classes.json у корінь сайту (див. нижче)
+#   2. Замініть <YOUR_DOCKERHUB_USER>/<YOUR_IMAGE_NAME> на своє
+# ─────────────────────────────────────────────────────────────────────────────
+
+FROM node:20-bookworm-slim AS builder
+
+# --- Системні утиліти (ті самі що були у вас) --------------------------------
+RUN apt-get update && \
+    apt-get install -y \
+        tree \
+        rsync \
+        ssh-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- Встановити easy-obfuscator глобально ------------------------------------
+RUN npm install -g easy-obfuscator@1.0.0
+
+WORKDIR /app
+COPY . .
+
+RUN mkdir -p /output/dist
+
+# --- Діагностика (можна прибрати після першого успішного білду) --------------
+RUN node -v && npm -v
+RUN easy-obfuscator --version
+
+# --- Запуск обфускації -------------------------------------------------------
+#
+# --exclude-list exclude-classes.json
+#   Список класів які НЕ треба обфускувати (bootstrap, js-хуки тощо).
+#   Файл лежить у корені вашого сайту.
+#   Формат JSON: ["navbar","active","show","collapse",...]
+#
+# --seed 42
+#   Фіксований seed → однаковий результат при кожному білді.
+#   Якщо прибрати --seed → кожен білд дає нові назви класів (менш бажано).
+#
+# Якщо треба обфускувати кілька HTML файлів:
+#   --apply "index.html,about.html,partials/*.php"
+#
+RUN easy-obfuscator style.css \
+        --apply index.html \
+        --exclude-list exclude-classes.json \
+        --output /output/dist \
+        --seed 42 \
+    || (echo "[ERROR] easy-obfuscator failed" && exit 1)
+
+# --- Копіювати решту файлів сайту --------------------------------------------
+#     Налаштуйте список папок і файлів під свій проєкт
+RUN set -ex && \
+    cp -vR \
+        assets/ \
+        fonts/ \
+        wall/ \
+        /output/dist/ 2>/dev/null || true && \
+    cp -v \
+        english.js \
+        fonts.css \
+        robots.txt \
+        /output/dist/ 2>/dev/null || true
+
+RUN chmod -R 755 /output/dist
+
+# ─── Stage 2: фінальний мінімальний образ ────────────────────────────────────
+FROM alpine:3.18
+COPY --from=builder /output/dist /dist
+
+
+# =============================================================================
+# ПРИКЛАД exclude-classes.json (покласти у корінь сайту поруч з style.css)
+# =============================================================================
+#
+# [
+#   "collapse", "show", "active", "open", "fade",
+#   "navbar", "navbar-nav", "navbar-toggler", "navbar-toggler-icon",
+#   "nav-item", "nav-link", "no-scroll",
+#   "social-icons", "social-icon", "links-social", "links-text",
+#   "font-marker", "links-menu", "about",
+#   "library",
+#   "update-button", "refresh-button-phrases",
+#   "modal", "dropdown"
+# ]
+#
+# =============================================================================
+# НАСТУПНИЙ КРОК: оновити GitHub Actions воркфлоу сайту
+# =============================================================================
+#
+# У воркфлоу де перевіряється карта обфускації — оновити назву файлу:
+#
+# Було:
+#   cat ./deploy/obscure.map || echo "File not found or empty"
+#
+# Стало:
+#   cat ./deploy/easy-obfuscator.map.json || echo "File not found or empty"
+#
+# =============================================================================

@@ -3,3 +3,5 @@
 test/
 .git/
 .gitignore
+readme-for-dev.md
+dockerfile_template
