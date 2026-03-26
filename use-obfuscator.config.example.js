@@ -1,4 +1,4 @@
-// easy-obfuscator.config.js
+// use-obfuscator.config.js
 //
 // Place this file in your project root.
 // CLI flags always override config file values.

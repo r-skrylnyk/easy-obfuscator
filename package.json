@@ -1,13 +1,13 @@
 {
-  "name": "easy-obfuscator",
-  "version": "1.0.1",
+  "name": "use-obfuscator",
+  "version": "1.0.0",
   "description": "CSS/HTML class & ID obfuscator with config file, multi-format support and exclude lists",
   "main": "lib/core.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "easy-obfuscator": "index.js"
+    "use-obfuscator": "index.js"
   },
   "engines": {
     "node": ">=16"
@@ -26,7 +26,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/r-skrylnyk/easy-obfuscator.git"
+    "url": "git+https://github.com/r-skrylnyk/use-obfuscator.git"
   },
   "dependencies": {
     "cheerio": "^1.0.0",

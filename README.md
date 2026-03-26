@@ -1,4 +1,4 @@
-# easy-obfuscator
+﻿# use-obfuscator
 
 *by Roman Skrylnyk — [github.com/r-skrylnyk](https://github.com/r-skrylnyk/)*  
 *Inspired by [obscure](https://github.com/bitstrider/obscure) by Jason Yung*
@@ -10,7 +10,7 @@ CSS/HTML class & ID obfuscator with **config file support**, **multi-format file
 ## Встановлення
 
 ```bash
-npm install -g easy-obfuscator
+npm install -g use-obfuscator
 ```
 
 ---
@@ -18,7 +18,7 @@ npm install -g easy-obfuscator
 ## Швидкий старт (CLI)
 
 ```bash
-easy-obfuscator style.css --apply index.html --output ./dist --seed 42
+use-obfuscator style.css --apply index.html --output ./dist --seed 42
 ```
 
 Знаходить усі класи та ID у `style.css`, перейменовує їх у хеш-назви і застосовує до `style.css` + `index.html`.
@@ -35,7 +35,7 @@ easy-obfuscator style.css --apply index.html --output ./dist --seed 42
 | `--exclude <files>` | `-e` | CSS файли, чиї класи треба пропустити (напр. Bootstrap) |
 | `--exclude-list <file>` | `-x` | .json або .txt файл зі списком класів для пропуску |
 | `--seed <number>` | `-s` | Ціле число для відтворюваної обфускації |
-| `--config <file>` | `-c` | Шлях до конфіг-файлу (за замовч: `easy-obfuscator.config.js`) |
+| `--config <file>` | `-c` | Шлях до конфіг-файлу (за замовч: `use-obfuscator.config.js`) |
 | `--version` | `-V` | Версія |
 | `--help` | `-h` | Довідка |
 
@@ -43,10 +43,10 @@ easy-obfuscator style.css --apply index.html --output ./dist --seed 42
 
 ## Конфіг-файл
 
-Замість довгих команд — один файл `easy-obfuscator.config.js` у корені проєкту:
+Замість довгих команд — один файл `use-obfuscator.config.js` у корені проєкту:
 
 ```js
-// easy-obfuscator.config.js
+// use-obfuscator.config.js
 module.exports = {
   include:     'style.css',
   apply:       ['index.html', 'about.html', 'partials/*.php'],
@@ -59,7 +59,7 @@ module.exports = {
 
 Запуск із конфігом — просто:
 ```bash
-easy-obfuscator
+use-obfuscator
 ```
 
 CLI-прапори **завжди перевизначають** значення з конфіг-файлу.
@@ -86,7 +86,7 @@ collapse
 
 Запуск:
 ```bash
-easy-obfuscator style.css --apply index.html --exclude-list exclude-classes.json
+use-obfuscator style.css --apply index.html --exclude-list exclude-classes.json
 ```
 
 ---
@@ -95,13 +95,13 @@ easy-obfuscator style.css --apply index.html --exclude-list exclude-classes.json
 
 ```bash
 # Всі CSS та HTML у директорії
-easy-obfuscator *.css --apply *.html --output ./dist
+use-obfuscator *.css --apply *.html --output ./dist
 
 # Список через кому
-easy-obfuscator style.css,components.css --apply index.html,about.html
+use-obfuscator style.css,components.css --apply index.html,about.html
 
 # PHP шаблони
-easy-obfuscator style.css --apply "partials/*.php" --output ./dist
+use-obfuscator style.css --apply "partials/*.php" --output ./dist
 ```
 
 ---
@@ -123,12 +123,12 @@ easy-obfuscator style.css --apply "partials/*.php" --output ./dist
 |------|------|
 | `<output>/<original_name>.css` | Обфускований CSS |
 | `<output>/<original_name>.html` | Обфускований HTML/PHP/Vue |
-| `<output>/easy-obfuscator.map.json` | JSON-карта з метаданими та таблицею відповідностей |
+| `<output>/use-obfuscator.map.json` | JSON-карта з метаданими та таблицею відповідностей |
 
 ### Структура map-файлу
 ```json
 {
-  "tool": "easy-obfuscator",
+  "tool": "use-obfuscator",
   "version": "1.0.0",
   "generated": "2026-03-26T10:00:00.000Z",
   "seed": 42,
@@ -150,10 +150,10 @@ easy-obfuscator style.css --apply "partials/*.php" --output ./dist
 
 ```bash
 # Без --seed: різна обфускація при кожному запуску
-easy-obfuscator style.css --apply index.html
+use-obfuscator style.css --apply index.html
 
 # З --seed: однаковий результат завжди
-easy-obfuscator style.css --apply index.html --seed 42
+use-obfuscator style.css --apply index.html --seed 42
 ```
 
 **Рекомендовано для CI/CD** — зміни в Git будуть мінімальними між збірками.
@@ -165,16 +165,16 @@ easy-obfuscator style.css --apply index.html --seed 42
 ```dockerfile
 FROM node:18-bullseye-slim AS builder
 
-RUN npm install -g easy-obfuscator
+RUN npm install -g use-obfuscator
 
 WORKDIR /app
 COPY . .
 
 # З конфіг-файлом (рекомендовано)
-RUN easy-obfuscator
+RUN use-obfuscator
 
 # Або напряму
-# RUN easy-obfuscator style.css --apply index.html --output /output/dist --seed 42
+# RUN use-obfuscator style.css --apply index.html --output /output/dist --seed 42
 
 FROM alpine:3.18
 COPY --from=builder /output/dist /dist
@@ -184,7 +184,7 @@ COPY --from=builder /output/dist /dist
 
 ## Порівняння з `obscure`
 
-| Можливість | obscure | easy-obfuscator |
+| Можливість | obscure | use-obfuscator |
 |-----------|---------|-----------------|
 | CSS обфускація | ✅ | ✅ |
 | HTML обфускація | ✅ | ✅ |
@@ -201,13 +201,13 @@ COPY --from=builder /output/dist /dist
 ## Структура модуля
 
 ```
-easy-obfuscator/
+use-obfuscator/
 ├── index.js                          ← CLI точка входу (bin)
 ├── lib/
 │   ├── core.js                       ← головна функція run()
 │   ├── css-parser.js                 ← парсер CSS-селекторів
 │   └── config.js                     ← завантаження конфіг-файлу
-├── easy-obfuscator.config.example.js ← приклад конфігурації
+├── use-obfuscator.config.example.js ← приклад конфігурації
 ├── package.json
 ├── LICENSE
 └── README.md

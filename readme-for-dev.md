@@ -1,4 +1,4 @@
-# easy-obfuscator — Developer Notes
+﻿# use-obfuscator — Developer Notes
 
 Цей файл для мене особисто: як паблішити пакет, як версіонувати, як тестувати локально.
 
@@ -7,7 +7,7 @@
 ## Структура пакету
 
 ```
-easy-obfuscator/
+use-obfuscator/
 ├── index.js                        ← CLI entrypoint (bin)
 ├── lib/
 │   ├── core.js                     ← вся логіка обфускації
@@ -18,7 +18,7 @@ easy-obfuscator/
 │       └── publish.yml             ← auto-publish при git tag
 ├── .gitignore
 ├── .npmignore
-├── easy-obfuscator.config.example.js
+├── use-obfuscator.config.example.js
 └── package.json
 ```
 
@@ -49,7 +49,7 @@ npm publish --access public
 
 Після цього пакет доступний як:
 ```bash
-npm install -g easy-obfuscator
+npm install -g use-obfuscator
 ```
 
 ---
@@ -111,15 +111,15 @@ npm publish --provenance --access public
 # З папки пакету — встановити глобально через symlink
 npm link
 
-# Тепер easy-obfuscator доступний як CLI
-easy-obfuscator --version
-easy-obfuscator --help
+# Тепер use-obfuscator доступний як CLI
+use-obfuscator --version
+use-obfuscator --help
 
 # Тестовий запуск (з папки вашого сайту)
-easy-obfuscator style.css --apply index.html --output ./dist --seed 42
+use-obfuscator style.css --apply index.html --output ./dist --seed 42
 
 # Після тестування — прибрати symlink
-npm unlink -g easy-obfuscator
+npm unlink -g use-obfuscator
 ```
 
 ---
@@ -138,23 +138,23 @@ npm pack --dry-run
 
 ```bash
 # Переглянути метадані на npm
-npm info easy-obfuscator
+npm info use-obfuscator
 
 # Переглянути список файлів в опублікованому пакеті
-npm pack easy-obfuscator --dry-run 2>/dev/null || npx -y npm-package-json-lint easy-obfuscator
+npm pack use-obfuscator --dry-run 2>/dev/null || npx -y npm-package-json-lint use-obfuscator
 ```
 
-Або просто: https://www.npmjs.com/package/easy-obfuscator
+Або просто: https://www.npmjs.com/package/use-obfuscator
 
 ---
 
 ## Карта обфускації (output)
 
-Після запуску в output директорії з'явиться `easy-obfuscator.map.json`:
+Після запуску в output директорії з'явиться `use-obfuscator.map.json`:
 
 ```json
 {
-  "tool": "easy-obfuscator",
+  "tool": "use-obfuscator",
   "version": "1.0.0",
   "generated": "2026-03-26T10:00:00.000Z",
   "seed": 42,
@@ -170,7 +170,7 @@ npm pack easy-obfuscator --dry-run 2>/dev/null || npx -y npm-package-json-lint e
 }
 ```
 
-> У старого obscure карта звалась `obscure.map`. Тут — `easy-obfuscator.map.json`.
+> У старого obscure карта звалась `obscure.map`. Тут — `use-obfuscator.map.json`.
 
 ---
 
@@ -182,6 +182,6 @@ npm pack easy-obfuscator --dry-run 2>/dev/null || npx -y npm-package-json-lint e
 
 ## Посилання
 
-- npm: https://www.npmjs.com/package/easy-obfuscator
-- GitHub: https://github.com/r-skrylnyk/easy-obfuscator
+- npm: https://www.npmjs.com/package/use-obfuscator
+- GitHub: https://github.com/r-skrylnyk/use-obfuscator
 - Старий пакет (obscure): https://github.com/bitstrider/obscure

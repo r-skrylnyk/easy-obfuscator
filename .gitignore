@@ -1,5 +1,5 @@
 node_modules/
 *.map.json
-easy-obfuscator.config.js
+use-obfuscator.config.js
 dist/
 .DS_Store

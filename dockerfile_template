@@ -1,4 +1,4 @@
-# Dockerfile Template — easy-obfuscator
+﻿# Dockerfile Template — use-obfuscator
 #
 # Замініть значення в кутових дужках <...> на свої.
 # Цей шаблон замінює старий підхід з obscure@1.0.1 + патч index.js.
@@ -6,7 +6,7 @@
 # Відмінності від старого obscure:
 #   - НЕ потрібен COPY assets/obscure/index.js (патч більше не потрібен)
 #   - exclude задається файлом --exclude-list, не хардкодом у пакеті
-#   - карта обфускації: easy-obfuscator.map.json (було: obscure.map)
+#   - карта обфускації: use-obfuscator.map.json (було: obscure.map)
 #   - підтримує .php, .vue, .jsx, .tsx, glob, конфіг-файл
 #
 # Перед використанням:
@@ -24,8 +24,8 @@ RUN apt-get update && \
         ssh-client \
     && rm -rf /var/lib/apt/lists/*
 
-# --- Встановити easy-obfuscator глобально ------------------------------------
-RUN npm install -g easy-obfuscator@1.0.0
+# --- Встановити use-obfuscator глобально ------------------------------------
+RUN npm install -g use-obfuscator@1.0.0
 
 WORKDIR /app
 COPY . .
@@ -34,7 +34,7 @@ RUN mkdir -p /output/dist
 
 # --- Діагностика (можна прибрати після першого успішного білду) --------------
 RUN node -v && npm -v
-RUN easy-obfuscator --version
+RUN use-obfuscator --version
 
 # --- Запуск обфускації -------------------------------------------------------
 #
@@ -50,12 +50,12 @@ RUN easy-obfuscator --version
 # Якщо треба обфускувати кілька HTML файлів:
 #   --apply "index.html,about.html,partials/*.php"
 #
-RUN easy-obfuscator style.css \
+RUN use-obfuscator style.css \
         --apply index.html \
         --exclude-list exclude-classes.json \
         --output /output/dist \
         --seed 42 \
-    || (echo "[ERROR] easy-obfuscator failed" && exit 1)
+    || (echo "[ERROR] use-obfuscator failed" && exit 1)
 
 # --- Копіювати решту файлів сайту --------------------------------------------
 #     Налаштуйте список папок і файлів під свій проєкт
@@ -103,6 +103,6 @@ COPY --from=builder /output/dist /dist
 #   cat ./deploy/obscure.map || echo "File not found or empty"
 #
 # Стало:
-#   cat ./deploy/easy-obfuscator.map.json || echo "File not found or empty"
+#   cat ./deploy/use-obfuscator.map.json || echo "File not found or empty"
 #
 # =============================================================================
